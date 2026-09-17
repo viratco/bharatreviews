@@ -1,0 +1,404 @@
+/* ============================================================
+   WELCOME INTRO — "ignition"
+   Glyphs scramble into the wordmark while embers build and the
+   counter tracks real loading → flare → letters lift out → two
+   shutter layers sweep up centre-first (black, then orange) → the
+   hero settles out of a push-in underneath.
+   ============================================================ */
+
+html {
+  /* stop the page jumping sideways when the scroll lock releases */
+  scrollbar-gutter: stable;
+}
+html.is-intro {
+  overflow: hidden;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.intro {
+  --p: 0;
+  --col-ms: 950ms;
+  --col-stagger: 65ms;
+  --lag: 130ms;
+  --ignite-ms: 420ms;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  color: #fff;
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* skipping replays the same choreography, just tighter */
+.intro.is-quick {
+  --col-ms: 700ms;
+  --col-stagger: 40ms;
+  --lag: 90ms;
+  --ignite-ms: 240ms;
+}
+.intro.is-exit {
+  pointer-events: none;
+}
+
+/* ---------- shutters ---------- */
+.intro__cols {
+  position: absolute;
+  inset: 0;
+}
+.intro__col {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: calc(var(--i) * 100% / var(--cols));
+  /* 2px overlap so sub-pixel columns never show a hairline seam */
+  width: calc(100% / var(--cols) + 2px);
+  background: #070402;
+  transition: transform var(--col-ms) cubic-bezier(0.76, 0, 0.24, 1);
+  transition-delay: calc(var(--dist) * var(--col-stagger));
+  will-change: transform;
+}
+.intro__cols--accent .intro__col {
+  background: linear-gradient(180deg, #ff3d0d 0%, var(--orange) 55%, #ff8a4c 100%);
+  transition-delay: calc(var(--dist) * var(--col-stagger) + var(--lag));
+}
+.intro.is-exit .intro__col {
+  transform: translate3d(0, -102%, 0);
+}
+
+/* ---------- glow + flash ---------- */
+.intro__glow {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(120vmax, 1700px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgba(255, 96, 34, 0.5),
+    rgba(255, 60, 10, 0.16) 42%,
+    transparent 72%
+  );
+  /* driven every frame by the counter */
+  opacity: calc(0.2 + var(--p) * 0.8);
+  transform: scale(calc(0.55 + var(--p) * 0.45));
+  pointer-events: none;
+}
+.intro.is-ignite .intro__glow {
+  opacity: 1;
+  transform: scale(1.3);
+  transition:
+    transform var(--ignite-ms) var(--e-expo),
+    opacity var(--ignite-ms) var(--e-expo);
+}
+.intro.is-exit .intro__glow {
+  opacity: 0;
+  transition: opacity 0.45s var(--e-soft);
+}
+
+.intro__flash {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    60% 50% at 50% 50%,
+    rgba(255, 214, 180, 0.5),
+    rgba(255, 90, 30, 0.18) 45%,
+    transparent 75%
+  );
+  opacity: 0;
+  pointer-events: none;
+}
+.intro.is-ignite .intro__flash {
+  animation: introFlash 0.75s var(--e-soft) both;
+}
+@keyframes introFlash {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---------- embers ---------- */
+.intro__embers {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* sparks keep rising over the revealed hero for a moment */
+  transition: opacity 0.9s var(--e-soft) 0.25s;
+}
+.intro.is-exit .intro__embers {
+  opacity: 0;
+}
+
+/* ---------- content ---------- */
+.intro__content {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.intro__mark {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 118%;
+  font-size: clamp(3.1rem, 14.2vw, 12rem);
+  line-height: 0.84;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+.intro__line {
+  display: block;
+  overflow: hidden;
+  /* room for the lock flash's scale without clipping the edges */
+  padding: 0.04em 0.08em 0.1em;
+  margin: -0.04em -0.08em -0.1em;
+  white-space: nowrap;
+}
+
+.sc__char {
+  position: relative;
+  display: inline-block;
+  animation: introCharIn 1s var(--e-expo) both;
+  animation-delay: var(--d);
+}
+.sc__ghost {
+  visibility: hidden;
+}
+.sc__glyph {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #ff6a3a;
+  text-shadow: 0 0 28px rgba(255, 90, 30, 0.55);
+}
+.sc__glyph.is-set {
+  color: #fff;
+  text-shadow: none;
+  animation: introLock 0.6s var(--e-soft) both;
+}
+@keyframes introCharIn {
+  from { transform: translate3d(0, 108%, 0); }
+  to { transform: none; }
+}
+@keyframes introLock {
+  0% {
+    color: #ffe1c7;
+    text-shadow: 0 0 34px rgba(255, 130, 60, 0.95);
+    transform: scale(1.08);
+  }
+  100% {
+    color: #fff;
+    text-shadow: 0 0 0 rgba(255, 130, 60, 0);
+    transform: none;
+  }
+}
+.intro.is-ignite .sc__char {
+  animation: introCharOut 0.52s cubic-bezier(0.7, 0, 0.84, 0) both;
+  animation-delay: calc(var(--j) * 16ms);
+}
+@keyframes introCharOut {
+  from { transform: none; }
+  to { transform: translate3d(0, -112%, 0); }
+}
+
+.intro__meta {
+  position: absolute;
+  margin: 0;
+  font-family: var(--sans);
+  font-size: clamp(0.66rem, 0.9vw, 0.8rem);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  animation: introFade 0.9s var(--e-expo) 0.15s backwards;
+}
+.intro__meta--tl {
+  top: calc(var(--gutter) * 0.8);
+  left: var(--gutter);
+}
+.intro__meta--tr {
+  top: calc(var(--gutter) * 0.8);
+  right: var(--gutter);
+  text-align: right;
+}
+
+.intro__count {
+  position: absolute;
+  left: var(--gutter);
+  bottom: calc(var(--gutter) * 0.7);
+  display: flex;
+  align-items: flex-start;
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: clamp(2.6rem, 7vw, 6.2rem);
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  animation: introFade 0.9s var(--e-expo) 0.1s backwards;
+}
+/* fixed-width cells: digits can't nudge each other as they change */
+.intro__digit {
+  display: inline-block;
+  width: 1ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.intro__count sup {
+  margin: 0.15em 0 0 0.12em;
+  font-size: 0.3em;
+  letter-spacing: 0;
+  color: var(--orange);
+}
+
+.intro__skip {
+  position: absolute;
+  right: var(--gutter);
+  bottom: calc(var(--gutter) * 0.7);
+  padding: 0.6em 1.15em;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  animation: introFade 0.9s var(--e-expo) 0.6s backwards;
+  transition:
+    background 0.3s var(--e-soft),
+    border-color 0.3s var(--e-soft),
+    color 0.3s var(--e-soft);
+}
+.intro__skip:hover,
+.intro__skip:focus-visible {
+  background: var(--orange);
+  border-color: var(--orange);
+  color: #fff;
+  outline: none;
+}
+
+.intro__bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.07);
+}
+.intro__bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #ff3d0d, var(--orange), #ffb27a);
+  box-shadow: 0 0 16px rgba(255, 90, 30, 0.9);
+  transform: scaleX(var(--p));
+  transform-origin: 0 50%;
+}
+
+@keyframes introFade {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+}
+
+/* chrome clears out as the flare hits */
+.intro.is-ignite .intro__meta,
+.intro.is-ignite .intro__count,
+.intro.is-ignite .intro__skip,
+.intro.is-ignite .intro__bar {
+  animation: none;
+  opacity: 0;
+  transform: translate3d(0, -12px, 0);
+  transition:
+    opacity 0.35s var(--e-soft),
+    transform 0.45s var(--e-expo);
+}
+
+@media (max-width: 640px) {
+  /* two uppercase corner labels collide on a phone — keep the tagline */
+  .intro__meta--tr {
+    display: none;
+  }
+  .intro__meta--tl {
+    right: var(--gutter);
+  }
+}
+
+/* ============================================================
+   HAND-OFF — the page waits under the curtain, then settles in
+   as html.is-intro is removed at the start of the sweep
+   ============================================================ */
+html.is-intro .hdr,
+html.is-intro .langbar {
+  transform: translate3d(0, -170%, 0);
+}
+
+.hero__bg {
+  transition:
+    transform 2.4s var(--e-expo),
+    filter 1.9s var(--e-soft);
+}
+html.is-intro .hero__bg {
+  transform: scale(1.26);
+  filter: brightness(0.28) saturate(1.35);
+}
+
+.hero__lede > p {
+  transition:
+    opacity 1s var(--e-soft) 0.75s,
+    transform 1.3s var(--e-expo) 0.75s;
+}
+html.is-intro .hero__lede > p {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+}
+
+/* ============================================================
+   REDUCED MOTION — brand, a progress line, and a plain fade
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .intro__embers,
+  .intro__flash {
+    display: none;
+  }
+  .sc__char,
+  .intro.is-ignite .sc__char,
+  .sc__glyph.is-set {
+    animation: none !important;
+  }
+  .intro.is-exit .intro__col {
+    transform: none;
+  }
+  .intro.is-exit {
+    opacity: 0;
+  }
+  .intro__glow {
+    transform: none !important;
+  }
+  html.is-intro .hdr,
+  html.is-intro .langbar,
+  html.is-intro .hero__bg,
+  html.is-intro .hero__lede > p {
+    transform: none;
+    filter: none;
+  }
+}

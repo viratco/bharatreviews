@@ -1,0 +1,303 @@
+/* ============================================================
+   MOTION SYSTEM
+   Every animated element opts into a named variant. Only opacity,
+   transform and filter are animated, so everything stays on the
+   compositor. Reduced-motion collapses all of it to a plain fade.
+   ============================================================ */
+
+:root {
+  --e-expo: cubic-bezier(0.16, 1, 0.3, 1);      /* long, confident settle  */
+  --e-spring: cubic-bezier(0.34, 1.4, 0.64, 1); /* slight overshoot        */
+  --e-soft: cubic-bezier(0.33, 1, 0.68, 1);     /* gentle, for small parts */
+  --d-slow: 1.15s;
+  --d-base: 0.85s;
+  --d-fast: 0.55s;
+}
+
+/* ---------- base: every reveal starts hidden ---------- */
+[data-reveal] {
+  opacity: 0;
+  transition:
+    opacity var(--d-base) var(--e-expo),
+    transform var(--d-base) var(--e-expo),
+    filter var(--d-base) var(--e-expo);
+  transition-delay: var(--delay, 0ms);
+  will-change: opacity, transform;
+}
+[data-reveal].is-in {
+  opacity: 1;
+  filter: none;
+}
+/* Elements driven by the rAF engine own their transform, so the reveal
+   reset must skip them or it would cancel the parallax every frame. */
+[data-reveal].is-in:not([data-par]):not([data-par-scale]):not([data-rot]):not([data-hero-out]) {
+  transform: none;
+}
+/* release the compositor hint once the element has settled */
+[data-reveal].is-done {
+  will-change: auto;
+}
+
+/* ---------- variants ---------- */
+[data-reveal='up']     { transform: translate3d(0, 38px, 0); }
+[data-reveal='down']   { transform: translate3d(0, -30px, 0); }
+[data-reveal='left']   { transform: translate3d(calc(var(--gutter) * -0.7), 0, 0); }
+[data-reveal='right']  { transform: translate3d(calc(var(--gutter) * 0.7), 0, 0); }
+[data-reveal='scale']  { transform: scale(0.92); }
+[data-reveal='pop']    { transform: scale(0.55); transition-timing-function: var(--e-spring); }
+[data-reveal='blur']   { transform: scale(1.06); filter: blur(16px); }
+[data-reveal='fade']   { /* opacity only */ }
+
+/* Card entrances get a touch of rotation so a grid doesn't feel mechanical.
+   Horizontal travel is a fraction of the gutter, never a fixed px value: a
+   grid's outer column sits flush against the gutter, so any larger offset
+   would swing the card past the viewport edge mid-animation. */
+[data-reveal='tilt-l'] {
+  transform: translate3d(calc(var(--gutter) * -0.4), 26px, 0) rotate(-2.2deg);
+}
+[data-reveal='tilt-r'] {
+  transform: translate3d(calc(var(--gutter) * 0.4), 26px, 0) rotate(2.2deg);
+}
+
+/* slower, weightier entrance for the big rounded service panels */
+[data-reveal='panel'] {
+  transform: translate3d(0, 70px, 0) scale(0.975);
+  transition-duration: var(--d-slow);
+}
+
+/* ---------- masked text reveal ---------- */
+.split {
+  display: inline;
+}
+.split__line {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* descenders (g, y, ü) would clip against overflow:hidden without this */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+.split__inner {
+  display: inline-block;
+  transform: translate3d(0, 110%, 0);
+  transition: transform var(--d-slow) var(--e-expo);
+  transition-delay: var(--delay, 0ms);
+  will-change: transform;
+}
+.is-in .split__inner {
+  transform: none;
+}
+.split__space {
+  display: inline-block;
+  white-space: pre;
+}
+
+/* ---------- scroll progress bar ---------- */
+.progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: 90;
+  background: linear-gradient(90deg, var(--orange), var(--red));
+  transform: scaleX(var(--p, 0));
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* ---------- scroll-linked transforms (driven by the rAF engine) ---------- */
+[data-par] {
+  transform: translate3d(0, var(--py, 0px), 0);
+  will-change: transform;
+}
+[data-par-scale] {
+  transform: translate3d(0, var(--py, 0px), 0) scale(var(--ps, 1));
+}
+[data-rot] {
+  transform: rotate(var(--rz, 0deg));
+  will-change: transform;
+}
+
+/* hero content recedes as you scroll past it */
+[data-hero-out] {
+  transform: translate3d(0, var(--py, 0px), 0);
+  opacity: var(--po, 1);
+}
+
+/* ---------- magnetic buttons ---------- */
+.cta,
+.form__submit {
+  transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+  transition:
+    transform 0.45s var(--e-soft),
+    box-shadow 0.4s var(--e-soft);
+}
+.cta:hover,
+.form__submit:hover {
+  /* magnetic offset replaces the old lift; keep the shadow cue */
+  box-shadow: 0 16px 38px -14px rgba(255, 77, 25, 0.9);
+}
+
+/* ---------- ring draw ---------- */
+.ring__svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.ring__circle {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.22);
+  stroke-width: 1;
+  stroke-dasharray: var(--len) var(--len);
+  stroke-dashoffset: var(--len);
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1.5s var(--e-expo);
+  transition-delay: var(--delay, 0ms);
+}
+.ring.is-in .ring__circle {
+  stroke-dashoffset: 0;
+}
+
+/* ---------- counters ---------- */
+.counter {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- marquee: base drift + scroll-velocity boost ---------- */
+.marq__track {
+  transform: translate3d(var(--mq, 0px), 0, 0);
+  will-change: transform;
+}
+
+/* ---------- FAQ accordion (animatable height) ---------- */
+.faq__a {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.55s var(--e-expo),
+    opacity 0.4s var(--e-soft),
+    padding-bottom 0.55s var(--e-expo);
+  padding-bottom: 0;
+}
+.faq__a > div {
+  overflow: hidden;
+  min-height: 0;
+}
+.is-open > .faq__a {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+.faq__sign::before,
+.faq__sign::after {
+  transition: transform 0.45s var(--e-spring);
+}
+.is-open .faq__sign::before {
+  transform: rotate(180deg);
+}
+.is-open .faq__sign::after {
+  transform: rotate(180deg) scaleY(0);
+}
+
+/* ---------- tiles: float + hover ---------- */
+.tile {
+  transform: translate3d(0, var(--py, 0px), 0);
+}
+.tile__inner {
+  transition:
+    transform 0.6s var(--e-soft),
+    filter 0.6s var(--e-soft);
+}
+
+/* ---------- service collage plates drift within their card ---------- */
+.plate {
+  transform: rotate(var(--rot)) translate3d(0, var(--py, 0px), 0);
+}
+
+/* ---------- stars pop in sequence ---------- */
+.stars svg {
+  opacity: 0;
+  transform: scale(0.3) rotate(-25deg);
+  transition:
+    opacity 0.4s var(--e-spring),
+    transform 0.5s var(--e-spring);
+}
+.is-in .stars svg {
+  opacity: 1;
+  transform: none;
+}
+.stars svg:nth-child(1) { transition-delay: 60ms; }
+.stars svg:nth-child(2) { transition-delay: 120ms; }
+.stars svg:nth-child(3) { transition-delay: 180ms; }
+.stars svg:nth-child(4) { transition-delay: 240ms; }
+.stars svg:nth-child(5) { transition-delay: 300ms; }
+
+/* ---------- nav underline + drawer stagger ---------- */
+.drawer nav a {
+  opacity: 0;
+  transform: translate3d(0, 26px, 0);
+  transition:
+    opacity 0.5s var(--e-expo),
+    transform 0.5s var(--e-expo);
+}
+.drawer.is-open nav a {
+  opacity: 1;
+  transform: none;
+}
+.drawer.is-open nav a:nth-child(1) { transition-delay: 80ms; }
+.drawer.is-open nav a:nth-child(2) { transition-delay: 140ms; }
+.drawer.is-open nav a:nth-child(3) { transition-delay: 200ms; }
+.drawer.is-open nav a:nth-child(4) { transition-delay: 260ms; }
+
+/* ============================================================
+   NARROW SCREENS
+   Horizontal entrance travel is trimmed on phones: a card sliding in
+   from +44px would be clipped by the viewport edge mid-animation.
+   ============================================================ */
+@media (max-width: 900px) {
+  /* single-column cards span the full content width, so drop sideways
+     travel entirely and let the rotation carry the entrance */
+  [data-reveal='tilt-l'] {
+    transform: translate3d(0, 30px, 0) rotate(-1.4deg);
+  }
+  [data-reveal='tilt-r'] {
+    transform: translate3d(0, 30px, 0) rotate(1.4deg);
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION — keep the content, drop the movement
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-reveal].is-in,
+  .split__inner,
+  .stars svg,
+  .drawer nav a {
+    transform: none !important;
+    filter: none !important;
+    transition: opacity 0.25s linear !important;
+  }
+  [data-par],
+  [data-par-scale],
+  [data-rot],
+  [data-hero-out],
+  .tile,
+  .plate,
+  .marq__track {
+    transform: none !important;
+  }
+  [data-hero-out] {
+    opacity: 1 !important;
+  }
+  .ring__circle {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+  .marq__track {
+    animation: none !important;
+  }
+}

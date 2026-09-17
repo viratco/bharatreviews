@@ -1,0 +1,142 @@
+/* ============================================================
+   TOKAI — design tokens + reset
+   ============================================================ */
+
+:root {
+  /* --- palette --- */
+  --black: #000000;
+  --ink: #070402;
+  --ink-2: #0d0806;
+  --coal: #131010;
+
+  --ember-900: #170703;
+  --ember-800: #2a0f06;
+  --ember-700: #451607;
+  --ember-600: #6b2409;
+  --ember-500: #93330c;
+
+  --orange: #ff4d19;
+  --orange-soft: #ff8a5c;
+  --red: #ff0d0d;
+
+  --white: #ffffff;
+  --mute: rgba(255, 255, 255, 0.62);
+  --mute-2: rgba(255, 255, 255, 0.42);
+  --line: rgba(255, 255, 255, 0.12);
+  --line-soft: rgba(255, 255, 255, 0.07);
+  --glass: rgba(255, 255, 255, 0.045);
+
+  /* --- type --- */
+  --display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --sans: 'Manrope', 'Helvetica Neue', Arial, sans-serif;
+
+  /* --- layout --- */
+  --gutter: clamp(20px, 4vw, 72px);
+  --maxw: 1440px;
+  --langbar-w: 108px;
+  --radius: 34px;
+  --radius-lg: 46px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: dark;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Guard: a single overflowing child must never widen the initial
+     containing block, or every position:fixed element shifts with it.
+     `clip` (not `hidden`) so vertical scrolling stays on the viewport. */
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+::selection {
+  background: var(--orange);
+  color: #fff;
+}
+
+/* thin scrollbars inside horizontal rails */
+.rail::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+.rail {
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
