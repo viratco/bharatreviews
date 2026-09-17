@@ -9,6 +9,7 @@ export const content = {
       services: 'Leistungen',
       team: 'Team',
       blog: 'Blog',
+      partner: 'Partner Werden',
       contact: 'Kontakt',
     },
 
@@ -188,6 +189,7 @@ export const content = {
       services: 'Services',
       team: 'Team',
       blog: 'Blog',
+      partner: 'Property Owners',
       contact: 'Contact Us',
     },
 

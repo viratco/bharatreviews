@@ -29,6 +29,7 @@ export function Header({ t, lang, setLang }) {
           <a href="#leistungen">{t.nav.services}</a>
           <a href="#team">{t.nav.team}</a>
           <a href="#blog">{t.nav.blog}</a>
+          <a href="#partner">{t.nav.partner}</a>
         </nav>
 
         <a className="hdr__cta" href="#kontakt">
@@ -68,6 +69,7 @@ export function Header({ t, lang, setLang }) {
           <a href="#leistungen">{t.nav.services}</a>
           <a href="#team">{t.nav.team}</a>
           <a href="#blog">{t.nav.blog}</a>
+          <a href="#partner">{t.nav.partner}</a>
           <a href="#faq">FAQ</a>
           <a href="#kontakt">{t.nav.contact}</a>
         </nav>
