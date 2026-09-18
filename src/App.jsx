@@ -14,7 +14,6 @@ import { Portfolio } from './components/Portfolio.jsx'
 import { BrandStory } from './components/BrandStory.jsx'
 import { Services } from './components/Services.jsx'
 import { Team } from './components/Team.jsx'
-import { Blog } from './components/Blog.jsx'
 import { PartnerPage } from './components/PartnerPage.jsx'
 import { Testimonials } from './components/Testimonials.jsx'
 import { Faq } from './components/Faq.jsx'
@@ -34,7 +33,7 @@ export default function App() {
   const [introDone, setIntroDone] = useState(false)
   const [introGone, setIntroGone] = useState(false)
   const handleReveal = useCallback(() => setIntroDone(true), [])
-  const handleDone = useCallback(() => setIntroGone(true), [])
+  const handleDone = useCallback(() => setIntroDone(true), [])
 
   useEffect(() => {
     document.documentElement.lang = lang
@@ -73,7 +72,6 @@ export default function App() {
         <BrandStory t={t} />
         <Services t={t} />
         <Team t={t} />
-        <Blog t={t} />
         <PartnerPage t={t} />
         <Testimonials t={t} lang={lang} />
         <Faq t={t} />
