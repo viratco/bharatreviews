@@ -143,7 +143,7 @@ export function Blog({ t }) {
         display: 'flex',
         flexWrap: 'wrap',
         alignItems: 'center',
-        justify-content: 'space-between',
+        justifyContent: 'space-between',
         gap: '2rem',
       }}>
         <div style={{ maxWidth: '42rem' }}>
