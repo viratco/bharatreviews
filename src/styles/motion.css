@@ -202,20 +202,7 @@
   transform: rotate(180deg) scaleY(0);
 }
 
-/* ---------- tiles: float + hover ---------- */
-.tile {
-  transform: translate3d(0, var(--py, 0px), 0);
-}
-.tile__inner {
-  transition:
-    transform 0.6s var(--e-soft),
-    filter 0.6s var(--e-soft);
-}
 
-/* ---------- service collage plates drift within their card ---------- */
-.plate {
-  transform: rotate(var(--rot)) translate3d(0, var(--py, 0px), 0);
-}
 
 /* ---------- stars pop in sequence ---------- */
 .stars svg {
@@ -285,7 +272,6 @@
   [data-par-scale],
   [data-rot],
   [data-hero-out],
-  .tile,
   .plate,
   .marq__track {
     transform: none !important;

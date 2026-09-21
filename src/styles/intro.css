@@ -347,8 +347,7 @@ html.is-intro {
    HAND-OFF — the page waits under the curtain, then settles in
    as html.is-intro is removed at the start of the sweep
    ============================================================ */
-html.is-intro .hdr,
-html.is-intro .langbar {
+html.is-intro .hdr {
   transform: translate3d(0, -170%, 0);
 }
 
@@ -395,7 +394,6 @@ html.is-intro .hero__lede > p {
     transform: none !important;
   }
   html.is-intro .hdr,
-  html.is-intro .langbar,
   html.is-intro .hero__bg,
   html.is-intro .hero__lede > p {
     transform: none;

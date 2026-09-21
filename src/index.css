@@ -33,7 +33,6 @@
   /* --- layout --- */
   --gutter: clamp(20px, 4vw, 72px);
   --maxw: 1440px;
-  --langbar-w: 108px;
   --radius: 34px;
   --radius-lg: 46px;
 

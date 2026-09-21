@@ -8,7 +8,6 @@ export const content = {
       cases: 'Projekte',
       services: 'Leistungen',
       team: 'Team',
-      partner: 'Partner Werden',
       contact: 'Kontakt',
     },
 
@@ -187,7 +186,6 @@ export const content = {
       cases: 'Projects',
       services: 'Services',
       team: 'Team',
-      partner: 'Property Owners',
       contact: 'Contact Us',
     },
 
@@ -436,5 +434,60 @@ export const portfolio = [
     name: 'Palmo Coconut Co.',
     url: 'https://www.palmo.co.in',
     type: { de: 'Getränke · E-Commerce', en: 'Beverages · E-commerce' },
+  },
+]
+
+/* Video showcase. All clips are shown mixed together; each category becomes
+   a filter button (label) and the small badge on its videos (tag).
+   Files: src/assets/showcase/<category>/<id>.mp4 plus <id>.jpg as its poster.
+   `wide: true` marks landscape clips so their tile keeps the 16:9 shape. */
+export const showcase = [
+  {
+    category: 'hotels',
+    label: { de: 'Hotels', en: 'Hotels' },
+    tag: { de: 'Hotel', en: 'Hotel' },
+    videos: [
+      { id: 'hotel-01', wide: true },
+      { id: 'hotel-02' },
+      { id: 'hotel-03' },
+      { id: 'hotel-04', wide: true },
+      { id: 'hotel-05', wide: true },
+      { id: 'hotel-06', wide: true },
+      { id: 'hotel-07', wide: true },
+    ],
+  },
+  {
+    category: 'cafe',
+    label: { de: 'Cafés', en: 'Cafés' },
+    tag: { de: 'Café', en: 'Café' },
+    videos: [{ id: 'cafe-01' }, { id: 'cafe-02' }, { id: 'cafe-03' }, { id: 'cafe-04' }],
+  },
+  {
+    category: 'estates',
+    label: { de: 'Immobilien', en: 'Real Estate' },
+    tag: { de: 'Immobilien', en: 'Real Estate' },
+    videos: [{ id: 'estate-01' }],
+  },
+  {
+    category: 'law',
+    label: { de: 'Recht', en: 'Law' },
+    tag: { de: 'Recht', en: 'Law' },
+    videos: [
+      { id: 'law-01', wide: true },
+      { id: 'law-02' },
+      { id: 'law-03' },
+      { id: 'law-04' },
+      { id: 'law-05', wide: true },
+    ],
+  },
+  {
+    category: 'brands',
+    label: { de: 'Marken', en: 'Brands' },
+    tag: { de: 'Marke', en: 'Brand' },
+    videos: [
+      { id: 'brand-01' },
+      { id: 'brand-03' },
+      { id: 'brand-04', wide: true },
+    ],
   },
 ]

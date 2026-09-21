@@ -1,34 +1,83 @@
 import { CtaButton, Eyebrow, Reveal } from './Ui.jsx'
 import { SplitText } from './SplitText.jsx'
+import logo from '../assets/brand/logo.png'
 
-/* Each service card carries a tilted collage of original gradient plates.
-   `par` gives every plate its own drift rate for in-card depth. */
+// Decor stills cropped from the studio's own client videos (hotels, cafés,
+// real estate, legal), keyed by file name.
+const photos = Object.fromEntries(
+  Object.entries(import.meta.glob('../assets/services/*.jpg', { eager: true, import: 'default' })).map(
+    ([file, src]) => [file.split('/').pop().replace(/\.jpg$/, ''), src],
+  ),
+)
+
+/* One collage per service card. Positions are % of the art box; each plate is
+   tilted by `rot`, drifts at its own `par` rate on scroll, and later plates sit
+   on top. Kinds: photo | logo | stat (a figure from the benefits list) | words. */
 const COLLAGES = [
+  // Branding & Digital Marketing
   [
-    { hue: 350, rot: -8, w: 46, top: 6, left: 2, par: 0.1 },
-    { hue: 218, rot: 6, w: 34, top: 0, left: 52, par: -0.07 },
-    { hue: 26, rot: -5, w: 40, top: 46, left: 14, par: 0.13 },
-    { hue: 8, rot: 9, w: 30, top: 52, left: 62, par: -0.1 },
+    { kind: 'photo', src: 'brand-kit', ratio: '4 / 3', w: 48, top: 50, left: 4, rot: 4, par: 0.1 },
+    { kind: 'photo', src: 'vase', ratio: '3 / 4', w: 34, top: 2, left: 60, rot: 6, par: -0.08 },
+    { kind: 'stat', benefit: 1, ratio: '1 / 1', w: 30, top: 60, left: 58, rot: -5, par: 0.12 },
+    { kind: 'logo', ratio: '16 / 9', w: 56, top: 4, left: 0, rot: -4, par: -0.06 },
   ],
+  // Online Media & PR Management
   [
-    { hue: 200, rot: 7, w: 38, top: 4, left: 4, par: -0.08 },
-    { hue: 18, rot: -6, w: 44, top: 12, left: 46, par: 0.11 },
-    { hue: 320, rot: 4, w: 32, top: 56, left: 20, par: -0.12 },
-    { hue: 40, rot: -9, w: 30, top: 60, left: 58, par: 0.08 },
+    { kind: 'photo', src: 'mic', ratio: '3 / 4', w: 36, top: 2, left: 2, rot: -5, par: 0.09 },
+    { kind: 'photo', src: 'reading-corner', ratio: '4 / 3', w: 54, top: 4, left: 42, rot: 4, par: -0.1 },
+    { kind: 'words', words: ['PR', 'Media', 'Reputation'], ratio: '16 / 10', w: 50, top: 58, left: 44, rot: -4, par: 0.07 },
+    { kind: 'stat', benefit: 2, ratio: '1 / 1', w: 30, top: 60, left: 8, rot: 5, par: -0.12 },
   ],
+  // Professional Web Design & Development
   [
-    { hue: 12, rot: -6, w: 42, top: 2, left: 8, par: 0.12 },
-    { hue: 260, rot: 8, w: 32, top: 10, left: 56, par: -0.09 },
-    { hue: 150, rot: -4, w: 36, top: 52, left: 6, par: 0.07 },
-    { hue: 30, rot: 6, w: 38, top: 56, left: 50, par: -0.11 },
+    { kind: 'photo', src: 'desk', ratio: '4 / 3', w: 54, top: 4, left: 0, rot: -4, par: 0.11 },
+    { kind: 'photo', src: 'arch', ratio: '3 / 4', w: 34, top: 0, left: 60, rot: 6, par: -0.09 },
+    { kind: 'words', words: ['Design', 'Build', 'Launch'], ratio: '16 / 10', w: 50, top: 58, left: 4, rot: 3, par: -0.07 },
+    { kind: 'stat', benefit: 0, ratio: '1 / 1', w: 30, top: 60, left: 60, rot: -5, par: 0.12 },
   ],
+  // Search Engine Optimization
   [
-    { hue: 190, rot: 5, w: 40, top: 8, left: 3, par: -0.1 },
-    { hue: 34, rot: -7, w: 34, top: 0, left: 50, par: 0.09 },
-    { hue: 300, rot: 6, w: 30, top: 50, left: 16, par: -0.06 },
-    { hue: 4, rot: -5, w: 40, top: 54, left: 52, par: 0.13 },
+    { kind: 'photo', src: 'twin-room', ratio: '4 / 3', w: 54, top: 6, left: 0, rot: 5, par: -0.1 },
+    { kind: 'photo', src: 'light', ratio: '3 / 4', w: 34, top: 0, left: 60, rot: -6, par: 0.09 },
+    { kind: 'words', words: ['Rank', 'Reach', 'Convert'], ratio: '16 / 10', w: 50, top: 58, left: 6, rot: -3, par: 0.07 },
+    { kind: 'stat', benefit: 3, ratio: '1 / 1', w: 30, top: 60, left: 62, rot: 5, par: -0.11 },
   ],
 ]
+
+// "500+ Created Projects" -> { value: '500+', label: 'Created Projects' }
+function splitFigure(title = '') {
+  const m = String(title).match(/^([\d.,]+\+?)\s+(.+)$/)
+  return m ? { value: m[1], label: m[2] } : { value: title, label: '' }
+}
+
+function PlateContent({ plate, benefits }) {
+  switch (plate.kind) {
+    case 'photo':
+      return photos[plate.src] ? (
+        <img className="plate__img" src={photos[plate.src]} alt="" loading="lazy" decoding="async" />
+      ) : null
+    case 'logo':
+      return <img className="plate__logo" src={logo} alt="" loading="lazy" decoding="async" />
+    case 'stat': {
+      // figures come from the benefits list, so they always match the rest of the site
+      const { value, label } = splitFigure(benefits[plate.benefit]?.title)
+      return (
+        <span className="plate__stat">
+          <b>{value}</b>
+          <i>{label}</i>
+        </span>
+      )
+    }
+    default:
+      return (
+        <span className="plate__words">
+          {plate.words.map((w) => (
+            <span key={w}>{w}</span>
+          ))}
+        </span>
+      )
+  }
+}
 
 export function Services({ t }) {
   return (
@@ -67,17 +116,19 @@ export function Services({ t }) {
             {COLLAGES[i % COLLAGES.length].map((plate, j) => (
               <span
                 key={j}
-                className="plate"
+                className={`plate plate--${plate.kind}`}
                 data-reveal="fade"
                 data-par={plate.par}
                 style={{
-                  '--h': plate.hue,
                   '--rot': `${plate.rot}deg`,
+                  '--ratio': plate.ratio,
                   width: `${plate.w}%`,
                   top: `${plate.top}%`,
                   left: `${plate.left}%`,
                 }}
-              />
+              >
+                <PlateContent plate={plate} benefits={t.benefits.items} />
+              </span>
             ))}
           </div>
         </Reveal>

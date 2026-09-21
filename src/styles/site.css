@@ -101,9 +101,6 @@
   align-items: center;
   gap: clamp(1rem, 4vw, 4rem);
   padding: clamp(0.9rem, 2vw, 1.75rem) var(--gutter);
-  /* The language switch is position:fixed and sits outside the flex flow,
-     so reserve its width here — otherwise header items slide under it. */
-  padding-right: calc(var(--gutter) + var(--langbar-w) + 1rem);
   transition:
     background 0.45s var(--ease),
     backdrop-filter 0.45s var(--ease),
@@ -165,36 +162,6 @@
 .hdr__cta:hover {
   background: #ff6234;
   transform: translateY(-1px);
-}
-
-/* language switch */
-.langbar {
-  position: fixed;
-  top: clamp(0.85rem, 1.9vw, 1.6rem);
-  right: var(--gutter);
-  z-index: 70;
-  display: flex;
-  padding: 4px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.42);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(12px);
-  transition: transform 1.1s var(--e-expo) 0.45s;
-}
-.langbar button {
-  padding: 0.34em 0.95em;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: rgba(255, 255, 255, 0.72);
-  transition:
-    background 0.3s var(--ease),
-    color 0.3s var(--ease);
-}
-.langbar button.is-active {
-  background: var(--orange);
-  color: #fff;
 }
 
 /* burger + drawer */
@@ -631,77 +598,6 @@
   right: clamp(0.6rem, 1.6vw, 1.6rem);
 }
 
-.tile {
-  position: relative;
-  overflow: hidden;
-  width: clamp(180px, 17vw, 250px);
-  aspect-ratio: 9 / 16;
-  border-radius: 16px;
-  background:
-    radial-gradient(90% 60% at 50% 18%, hsl(var(--h) 55% 62% / 0.5), transparent 62%),
-    linear-gradient(165deg, hsl(var(--h) 42% 34%), hsl(var(--h) 38% 9%) 72%);
-  transition:
-    transform 0.5s var(--ease),
-    filter 0.5s var(--ease);
-  filter: grayscale(0.72) contrast(1.05);
-}
-.tile--tall {
-  align-self: flex-start;
-}
-.tile:hover {
-  transform: translateY(-6px) scale(1.015);
-  filter: grayscale(0.15) contrast(1.05);
-}
-.tile__grain {
-  position: absolute;
-  inset: 0;
-  opacity: 0.4;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
-  background-size: 4px 4px;
-  mix-blend-mode: overlay;
-}
-.tile__n {
-  position: absolute;
-  top: 0.7rem;
-  left: 0.85rem;
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: clamp(1.4rem, 2.2vw, 2rem);
-  color: rgba(255, 255, 255, 0.34);
-}
-.tile__tag {
-  position: absolute;
-  right: 0.85rem;
-  bottom: 0.9rem;
-  max-width: 62%;
-  text-align: right;
-  font-size: 0.74rem;
-  line-height: 1.25;
-  letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.7);
-}
-.tile__play {
-  position: absolute;
-  inset: 0;
-  margin: auto;
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(6px);
-  color: #fff;
-  opacity: 0;
-  transition: opacity 0.4s var(--ease);
-}
-.tile__play svg {
-  width: 44%;
-}
-.tile:hover .tile__play {
-  opacity: 1;
-}
 
 /* ============================================================
    BRAND STORY — rings
@@ -847,17 +743,127 @@
 }
 .plate {
   position: absolute;
-  aspect-ratio: 3 / 4;
-  border-radius: 10px;
+  aspect-ratio: var(--ratio, 3 / 4);
+  overflow: hidden;
+  border-radius: 12px;
+  background: #150b07;
+  box-shadow:
+    0 26px 54px -24px rgba(0, 0, 0, 0.92),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  /* three separate properties so none overwrites another: the tilt (rotate),
+     the scroll drift written by the rAF engine (transform), the hover lift
+     (translate) */
   rotate: var(--rot);
-  background:
-    radial-gradient(80% 60% at 40% 25%, hsl(var(--h) 40% 68% / 0.75), transparent 70%),
-    linear-gradient(155deg, hsl(var(--h) 32% 52%), hsl(var(--h) 30% 16%));
-  box-shadow: 0 22px 48px -22px rgba(0, 0, 0, 0.9);
-  transition: transform 0.55s var(--ease);
+  transform: translate3d(0, var(--py, 0px), 0);
+  transition:
+    translate 0.6s var(--e-expo),
+    box-shadow 0.6s var(--e-soft);
 }
 .svc:hover .plate {
-  transform: translateY(-5px);
+  translate: 0 -6px;
+  box-shadow:
+    0 34px 64px -26px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+/* photos: cover the plate, with a faint print-like sheen */
+.plate__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  transition: scale 1.2s var(--e-expo);
+}
+.svc:hover .plate__img {
+  scale: 1.05;
+}
+.plate--photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.14), transparent 38%, transparent 70%, rgba(0, 0, 0, 0.28));
+  pointer-events: none;
+}
+
+/* logo: its near-black backdrop blends away into the plate */
+.plate--logo {
+  display: grid;
+  place-items: center;
+  background: radial-gradient(120% 90% at 50% 40%, #1f120a, #070403 75%);
+}
+.plate__logo {
+  width: 84%;
+  height: auto;
+  max-width: none;
+  mix-blend-mode: lighten;
+}
+
+/* stat + word cards scale their type to the card (cqi = % of card width) */
+.plate--stat,
+.plate--words {
+  container-type: inline-size;
+}
+.plate--stat {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(150deg, #ff5a1f, #c8360c 62%, #8f2208);
+}
+.plate__stat {
+  padding: 0 8cqi;
+  text-align: center;
+}
+.plate__stat b {
+  display: block;
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: 20cqi;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+.plate__stat i {
+  display: block;
+  margin-top: 4cqi;
+  font-style: normal;
+  font-weight: 700;
+  /* never below 9px — on a phone the card is ~84px wide, so the label wraps
+     onto two lines rather than shrinking out of legibility */
+  font-size: max(9px, 8cqi);
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+.plate--words {
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)),
+    #140a07;
+}
+.plate__words {
+  display: grid;
+  align-content: center;
+  gap: 1.6cqi;
+  height: 100%;
+  padding: 0 9cqi;
+}
+.plate__words span {
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: 10.5cqi;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.plate__words span:nth-child(2) {
+  color: var(--orange);
+}
+.plate__words span:nth-child(3) {
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.75);
 }
 
 /* ============================================================
@@ -1147,16 +1153,25 @@
   align-items: center;
   gap: clamp(1.5rem, 4vw, 4rem);
 }
-.ftr__mark > .split {
-  display: block;
-}
 .ftr__mark {
   display: grid;
-  font-size: clamp(2.5rem, 13vw, 12rem);
   font-weight: 700;
   font-stretch: 118%;
-  letter-spacing: -0.03em;
   line-height: 0.86;
+  /* the lines size themselves to this column, not to the screen */
+  container-type: inline-size;
+  /* a brand name is never hyphenated or broken */
+  hyphens: manual;
+  overflow-wrap: normal;
+}
+.ftr__mark > .split {
+  display: block;
+  /* "REVIEWS", the longest line, is ~5.4x its font-size wide in this cut:
+     18% of the column fills it with a little to spare */
+  font-size: min(18cqi, 12rem);
+  /* set here, not on the parent: an em letter-spacing is fixed where it's
+     declared, so it has to be declared at the size it applies to */
+  letter-spacing: -0.03em;
 }
 .ftr__tile {
   aspect-ratio: 4 / 3;
@@ -1661,6 +1676,10 @@
   .ftr__hero {
     grid-template-columns: 1fr;
   }
+  /* stacked under the wordmark, a 4:3 block would tower over it */
+  .ftr__tile {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 @media (max-width: 640px) {
@@ -1669,17 +1688,6 @@
   }
   .wordmark {
     font-size: 1.05rem;
-  }
-  :root,
-  .langbar {
-    --langbar-w: 90px;
-  }
-  .langbar {
-    padding: 3px;
-  }
-  .langbar button {
-    padding: 0.3em 0.75em;
-    font-size: 0.78rem;
   }
   .hero__social a {
     width: 28px;

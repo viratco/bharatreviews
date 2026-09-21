@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Reveal } from './Ui.jsx'
 
-export function Contact({ t, lang }) {
+export function Contact({ t }) {
   const [sent, setSent] = useState(false)
 
   const submit = (e) => {
@@ -39,13 +39,6 @@ export function Contact({ t, lang }) {
             <label data-reveal="up">
               <span>{t.contact.phone}</span>
               <input name="phone" type="tel" autoComplete="tel" />
-            </label>
-            <label className="form--wide" data-reveal="up">
-              <span>{t.contact.lang}</span>
-              <select name="language" defaultValue={lang}>
-                <option value="de">Deutsch</option>
-                <option value="en">English</option>
-              </select>
             </label>
 
             <button className="form__submit" type="submit">

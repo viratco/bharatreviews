@@ -14,7 +14,6 @@ import { Portfolio } from './components/Portfolio.jsx'
 import { BrandStory } from './components/BrandStory.jsx'
 import { Services } from './components/Services.jsx'
 import { Team } from './components/Team.jsx'
-import { PartnerPage } from './components/PartnerPage.jsx'
 import { Testimonials } from './components/Testimonials.jsx'
 import { Faq } from './components/Faq.jsx'
 import { Contact } from './components/Contact.jsx'
@@ -23,9 +22,10 @@ import { Footer } from './components/Footer.jsx'
 import './styles/site.css'
 import './styles/motion.css'
 import './styles/intro.css'
+import './styles/showcase.css'
 
 export default function App() {
-  const [lang, setLang] = useState('de')
+  const lang = 'en' // English-only site
   const t = content[lang]
 
   // introDone: shutters are opening, hero copy may animate.
@@ -33,7 +33,7 @@ export default function App() {
   const [introDone, setIntroDone] = useState(false)
   const [introGone, setIntroGone] = useState(false)
   const handleReveal = useCallback(() => setIntroDone(true), [])
-  const handleDone = useCallback(() => setIntroDone(true), [])
+  const handleDone = useCallback(() => setIntroGone(true), [])
 
   useEffect(() => {
     document.documentElement.lang = lang
@@ -61,21 +61,20 @@ export default function App() {
 
       <div className="progress" aria-hidden="true" />
 
-      <Header t={t} lang={lang} setLang={setLang} />
+      <Header t={t} />
 
       <main>
         <Hero t={t} ready={introDone} />
         <Marquee t={t} />
         <Benefits t={t} />
-        <CreativeOutput t={t} />
+        <CreativeOutput t={t} lang={lang} />
         <Portfolio t={t} lang={lang} />
         <BrandStory t={t} />
         <Services t={t} />
         <Team t={t} />
-        <PartnerPage t={t} />
         <Testimonials t={t} lang={lang} />
         <Faq t={t} />
-        <Contact t={t} lang={lang} />
+        <Contact t={t} />
       </main>
 
       <Footer t={t} />
