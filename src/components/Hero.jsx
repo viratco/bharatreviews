@@ -63,9 +63,11 @@ export function Hero({ t, ready = true }) {
       </ul>
 
       <div className="hero__foot" data-hero-out="">
-        <span className="badge" data-reveal="pop" style={{ '--delay': '250ms' }}>
-          {t.hero.badge}
-        </span>
+        {t.hero.badge && (
+          <span className="badge" data-reveal="pop" style={{ '--delay': '250ms' }}>
+            {t.hero.badge}
+          </span>
+        )}
 
         {/* masked per-word rise — reads as type being set, not a fade */}
         <h1 className={`hero__title${ready ? ' is-in' : ''}`}>

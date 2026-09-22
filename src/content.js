@@ -12,7 +12,6 @@ export const content = {
     },
 
     hero: {
-      badge: 'Creative Company Beside Noida',
       title: ['DIGITAL MARKETING', 'DESIGN STUDIO'],
       lede: 'BharatReviews ist ein digital-first Unternehmen, das Entscheidungen vereinfacht, ehrliche Einblicke liefert und erstklassigen Content erstellt. Wir verbinden kreative Strategie, datengestützte Umsetzung und echte Community-Einbindung.',
       cta: 'Mehr Erfahren',
@@ -174,7 +173,8 @@ export const content = {
     },
 
     footer: {
-      copy: '© 2025 BHARATREVIEWS. Alle Rechte vorbehalten.',
+      copy: '© 2026 BHARATREVIEWS. Alle Rechte vorbehalten.',
+      address: 'Jaypee Greens, Greater Noida',
       links: ['Home', 'Über Uns', 'Team', 'Leistungen', 'Kontakt'],
       disclaimer:
         'BharatReviews ist ein digital-first Unternehmen, das entwickelt wurde, um Entscheidungen zu vereinfachen, ehrliche Einblicke zu liefern und hochwirksame Inhalte zu erstellen.',
@@ -190,7 +190,6 @@ export const content = {
     },
 
     hero: {
-      badge: 'Creative Company Beside Noida',
       title: ['DIGITAL MARKETING', 'DESIGN STUDIO'],
       lede: 'BharatReviews is a digital-first company built to simplify decisions, deliver honest insights, and create high-impact content. We blend creative strategy, data-driven execution, and real community engagement to help brands grow and consumers choose smarter.',
       cta: 'Learn More',
@@ -352,7 +351,8 @@ export const content = {
     },
 
     footer: {
-      copy: '© 2025 BHARATREVIEWS. All Rights Reserved.',
+      copy: '© 2026 BHARATREVIEWS. All Rights Reserved.',
+      address: 'Jaypee Greens, Greater Noida',
       links: ['Home', 'About Us', 'Team', 'Services', 'Contact'],
       disclaimer:
         'BharatReviews is a digital-first company built to simplify decisions, deliver honest insights, and create high-impact content.',
