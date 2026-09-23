@@ -2,8 +2,8 @@ import { CtaButton, Eyebrow, Reveal } from './Ui.jsx'
 import { SplitText } from './SplitText.jsx'
 import logo from '../assets/brand/logo.png'
 
-// Decor stills cropped from the studio's own client videos (hotels, cafés,
-// real estate, legal), keyed by file name.
+// Card imagery, keyed by file name: generated decor/workspace stills plus two
+// brand-coloured artworks (reach, rise) rendered for the SEO card.
 const photos = Object.fromEntries(
   Object.entries(import.meta.glob('../assets/services/*.jpg', { eager: true, import: 'default' })).map(
     ([file, src]) => [file.split('/').pop().replace(/\.jpg$/, ''), src],
@@ -37,8 +37,8 @@ const COLLAGES = [
   ],
   // Search Engine Optimization
   [
-    { kind: 'photo', src: 'twin-room', ratio: '4 / 3', w: 54, top: 6, left: 0, rot: 5, par: -0.1 },
-    { kind: 'photo', src: 'light', ratio: '3 / 4', w: 34, top: 0, left: 60, rot: -6, par: 0.09 },
+    { kind: 'photo', src: 'reach', ratio: '4 / 3', w: 54, top: 6, left: 0, rot: 5, par: -0.1 },
+    { kind: 'photo', src: 'rise', ratio: '3 / 4', w: 34, top: 0, left: 60, rot: -6, par: 0.09 },
     { kind: 'words', words: ['Rank', 'Reach', 'Convert'], ratio: '16 / 10', w: 50, top: 58, left: 6, rot: -3, par: 0.07 },
     { kind: 'stat', benefit: 3, ratio: '1 / 1', w: 30, top: 60, left: 62, rot: 5, par: -0.11 },
   ],
