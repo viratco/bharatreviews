@@ -796,7 +796,6 @@
   width: 84%;
   height: auto;
   max-width: none;
-  mix-blend-mode: lighten;
 }
 
 /* stat + word cards scale their type to the card (cqi = % of card width) */
@@ -1811,3 +1810,124 @@
   transform: translateY(-2px);
 }
 
+
+/* ============================================================
+   HOVER — a light that follows the cursor
+   Once the page has settled these blocks sit completely still, so each
+   one picks up a warm glow under the pointer, a small lift and a
+   brighter edge. --mx/--my are written by useSpotlight() (useScrollFX.js).
+
+   The lift uses `translate`, never `transform`: [data-reveal].is-in
+   sets `transform: none` at a higher specificity and would cancel it.
+   ============================================================ */
+[data-spot] {
+  position: relative;
+  isolation: isolate; /* keeps the glow above the background, under the text */
+  --spot-size: 320px;
+  --spot-tint: 255 122 44;
+  --spot-max: 0.17;
+}
+/* Doubled selector on purpose: motion.css loads after this file and its
+   [data-reveal] rule has the same weight, so a single [data-spot] would lose
+   the transition. The reveal's own properties are repeated here (with its
+   stagger delay) because a transition list replaces, it never merges. */
+[data-spot][data-spot] {
+  transition:
+    opacity var(--d-base) var(--e-expo) var(--delay, 0ms),
+    transform var(--d-base) var(--e-expo) var(--delay, 0ms),
+    filter var(--d-base) var(--e-expo) var(--delay, 0ms),
+    background 0.35s var(--ease),
+    translate 0.55s var(--e-expo),
+    border-color 0.45s var(--ease),
+    box-shadow 0.55s var(--ease);
+}
+[data-spot]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease);
+  background: radial-gradient(
+    var(--spot-size) circle at var(--mx, 50%) var(--my, 50%),
+    rgb(var(--spot-tint) / var(--spot-max)),
+    transparent 70%
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  [data-spot]:hover::before {
+    opacity: 1;
+  }
+
+  /* benefit cards */
+  .bcard:hover {
+    translate: 0 -5px;
+    border-color: rgba(255, 122, 44, 0.4);
+    box-shadow: 0 26px 52px -32px rgba(255, 77, 25, 0.6);
+  }
+  .bcard--outline:hover {
+    border-color: rgba(255, 77, 25, 0.85);
+  }
+  .bcard--invert:hover {
+    border-color: transparent;
+    box-shadow: 0 26px 52px -30px rgba(0, 0, 0, 0.7);
+  }
+  .bcard:hover .bcard__spark {
+    rotate: 90deg;
+    opacity: 1;
+  }
+
+  /* service panels — wider, softer glow, they are much bigger */
+  .svc:hover {
+    translate: 0 -4px;
+    border-color: rgba(255, 255, 255, 0.26);
+    box-shadow: 0 34px 70px -44px rgba(255, 77, 25, 0.75);
+  }
+
+  /* testimonials */
+  .quote:hover {
+    translate: 0 -4px;
+    border-color: rgba(255, 122, 44, 0.32);
+    box-shadow: 0 24px 48px -32px rgba(0, 0, 0, 0.75);
+  }
+
+  /* faq rows stay put — a list that lifts reads as jittery */
+  .faq__list > li:hover {
+    border-color: rgba(255, 122, 44, 0.3);
+  }
+}
+
+.bcard--invert {
+  --spot-max: 0.13;
+}
+.svc {
+  --spot-size: 480px;
+  --spot-max: 0.13;
+}
+.quote {
+  --spot-size: 260px;
+}
+.faq__list > li[data-spot] {
+  --spot-size: 240px;
+  --spot-max: 0.14;
+}
+.bcard__spark {
+  transition:
+    rotate 0.7s var(--e-expo),
+    opacity 0.4s var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* no lift and no tracking glow — just a brighter edge */
+  [data-spot]::before {
+    display: none;
+  }
+  [data-spot]:hover {
+    translate: none;
+  }
+  .bcard:hover .bcard__spark {
+    rotate: none;
+  }
+}

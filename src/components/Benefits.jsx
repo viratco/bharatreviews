@@ -14,6 +14,7 @@ export function Benefits({ t }) {
             as="article"
             v={i % 2 === 0 ? 'tilt-l' : 'tilt-r'}
             className={`bcard bcard--${it.variant}`}
+            data-spot=""
           >
             <h3>
               <CountingTitle text={it.title} />

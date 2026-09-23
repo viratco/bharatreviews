@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { content } from './content.js'
 import { useReveal } from './hooks/useReveal.js'
-import { useScrollFX, useMagnetic } from './hooks/useScrollFX.js'
+import { useScrollFX, useMagnetic, useSpotlight } from './hooks/useScrollFX.js'
 
 import { Intro } from './components/Intro.jsx'
 import { BRAND } from './brand.js'
@@ -13,6 +13,7 @@ import { CreativeOutput } from './components/CreativeOutput.jsx'
 import { Portfolio } from './components/Portfolio.jsx'
 import { BrandStory } from './components/BrandStory.jsx'
 import { Services } from './components/Services.jsx'
+import { Studio } from './components/Studio.jsx'
 import { Team } from './components/Team.jsx'
 import { Testimonials } from './components/Testimonials.jsx'
 import { Faq } from './components/Faq.jsx'
@@ -23,6 +24,7 @@ import './styles/site.css'
 import './styles/motion.css'
 import './styles/intro.css'
 import './styles/showcase.css'
+import './styles/studio.css'
 
 export default function App() {
   const lang = 'en' // English-only site
@@ -44,6 +46,7 @@ export default function App() {
   useReveal([lang, introDone])
   useScrollFX([lang])
   useMagnetic([lang])
+  useSpotlight([lang])
 
   return (
     <div className="page">
@@ -71,6 +74,7 @@ export default function App() {
         <Portfolio t={t} lang={lang} />
         <BrandStory t={t} />
         <Services t={t} />
+        <Studio t={t} lang={lang} />
         <Team t={t} />
         <Testimonials t={t} lang={lang} />
         <Faq t={t} />

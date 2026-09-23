@@ -1,9 +1,10 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { showcase } from '../content.js'
 import { Pill, Reveal, Eyebrow } from './Ui.jsx'
 import { SplitText } from './SplitText.jsx'
 import { VideoLightbox } from './VideoLightbox.jsx'
 import { CategoryTabs } from './CategoryTabs.jsx'
+import { useInViewPlayback } from '../hooks/useInViewPlayback.js'
 
 // src/assets/showcase/<category>/<id>.(mp4|jpg), resolved to URLs by Vite
 const files = import.meta.glob('../assets/showcase/*/*.{mp4,jpg}', { eager: true, import: 'default' })
@@ -127,34 +128,6 @@ function useFold(gridRef) {
     }
   }, [gridRef])
   return fold
-}
-
-// Muted previews play only while on screen — off-screen clips would burn
-// bandwidth and battery for nothing.
-function useInViewPlayback(rootRef, key) {
-  useEffect(() => {
-    const root = rootRef.current
-    if (!root || reducedMotion() || navigator.connection?.saveData) return
-    const videos = [...root.querySelectorAll('.vtile__video')]
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const { target: v, isIntersecting } of entries) {
-          if (isIntersecting) {
-            v.muted = true // browsers only autoplay silent video
-            v.play().catch(() => {})
-          } else {
-            v.pause()
-          }
-        }
-      },
-      { threshold: 0.5 },
-    )
-    videos.forEach((v) => io.observe(v))
-    return () => {
-      io.disconnect()
-      videos.forEach((v) => v.pause())
-    }
-  }, [rootRef, key])
 }
 
 export function CreativeOutput({ t, lang }) {

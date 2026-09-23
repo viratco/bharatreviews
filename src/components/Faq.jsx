@@ -23,7 +23,7 @@ export function Faq({ t }) {
             // open state lives in data-open, not className: the scroll-reveal
             // adds .is-in to this element itself, and a React className update
             // would wipe it (the row would go invisible but keep its space)
-            <li key={item.q} data-reveal="up" data-open={isOpen ? '' : undefined}>
+            <li key={item.q} data-reveal="up" data-spot="" data-open={isOpen ? '' : undefined}>
               <button
                 type="button"
                 className="faq__q"

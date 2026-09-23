@@ -62,6 +62,19 @@ export const content = {
       newTab: 'öffnet in neuem Tab',
     },
 
+    studio: {
+      eyebrow: '— Kinematografie',
+      lines: ['HOT CHILLI', 'STUDIOS'],
+      paras: [
+        'Hot Chilli Studios dreht filmische Markenfilme — Hospitality, Food und Lifestyle, erzählt mit dem Auge einer Regie.',
+        'Jedes Bild ist geplant: Location, Shotlist, Licht, Kamerabewegung, Ton und ein finales Grading, das dem Material seine Stimmung gibt.',
+        'Gedreht und finalisiert in 2.39:1 für echtes Kinogefühl — danach geschnitten für Reels, Ads und Social.',
+      ],
+      skills: ['Markenfilm', 'Hospitality', 'Food & Lifestyle', 'Regie', 'Licht', 'Color Grading', 'Sound', 'Schnitt & Post'],
+      cta: 'Filme ansehen',
+      filmLabel: 'Film',
+    },
+
     story: {
       eyebrow: '— Warum BharatReviews wählen',
       titleA: '+ 2 JAHRE ERFAHRUNG.',
@@ -238,6 +251,19 @@ export const content = {
       sub: 'Click through — every card opens the live site.',
       visit: 'Visit website',
       newTab: 'opens in a new tab',
+    },
+
+    studio: {
+      eyebrow: '— Cinematic videography',
+      lines: ['HOT CHILLI', 'STUDIOS'],
+      paras: [
+        'Hot Chilli Studios shoots cinematic brand films — hospitality, food and lifestyle, told with a director\'s eye.',
+        'Every frame is planned: location, shot list, lighting, camera movement, sound, and a final grade that gives the footage its mood.',
+        'Shot and finished in 2.39:1 for a genuinely filmic feel, then cut down for reels, ads and social.',
+      ],
+      skills: ['Brand films', 'Hospitality', 'Food & lifestyle', 'Direction', 'Lighting', 'Colour grading', 'Sound', 'Edit & post'],
+      cta: 'Watch the films',
+      filmLabel: 'Film',
     },
 
     story: {
@@ -500,4 +526,11 @@ export const showcase = [
       { id: 'brand-06', wide: true },
     ],
   },
+]
+
+/* Films featured in the Hot Chilli Studios section, by showcase asset key.
+   Runtimes are the real clip lengths, used as on-card metadata. */
+export const studioFilms = [
+  { key: 'hotels/hotel-08', runtime: '0:46' },
+  { key: 'hotels/hotel-09', runtime: '1:10' },
 ]

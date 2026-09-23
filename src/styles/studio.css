@@ -1,0 +1,237 @@
+/* ============================================================
+   HOT CHILLI STUDIOS — cinematic sub-brand block.
+   Its own deep-red accent so it reads as a distinct studio,
+   while the type and motion stay in the site's family.
+   ============================================================ */
+
+.studio {
+  --chilli: #e4102f;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(4.5rem, 9vw, 8rem) var(--gutter);
+  background: #050202;
+}
+/* a low red wash instead of the site's orange, so the section reads apart */
+.studio__glow {
+  position: absolute;
+  left: 50%;
+  top: -10%;
+  width: min(120vmax, 1500px);
+  aspect-ratio: 1;
+  translate: -50% 0;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(228, 16, 47, 0.22), rgba(120, 8, 24, 0.08) 45%, transparent 72%);
+  pointer-events: none;
+}
+
+.studio__head {
+  display: grid;
+  justify-items: center;
+  gap: 0.7rem;
+  text-align: center;
+  max-width: var(--maxw);
+  margin: 0 auto clamp(2rem, 4vw, 3rem);
+}
+.studio__title {
+  display: grid;
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 112%;
+  font-size: clamp(2.1rem, 7.5vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  hyphens: manual;
+  overflow-wrap: normal;
+}
+.studio__title > .split {
+  display: block;
+}
+.studio__title .is-chilli {
+  color: var(--chilli);
+}
+
+.studio__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+  max-width: var(--maxw);
+  margin: 0 auto clamp(2.5rem, 5vw, 4rem);
+}
+.studio__copy {
+  display: grid;
+  gap: clamp(0.8rem, 1.4vw, 1.15rem);
+}
+.studio__copy p {
+  color: rgba(255, 255, 255, 0.76);
+  font-size: clamp(0.98rem, 1.25vw, 1.14rem);
+  line-height: 1.6;
+  max-width: 34rem;
+}
+.studio__skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-content: start;
+}
+.studio__skills li {
+  padding: 0.55em 1.05em;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.04);
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+  transition:
+    border-color 0.35s var(--e-soft),
+    color 0.35s var(--e-soft);
+}
+.studio__skills li:hover {
+  border-color: rgba(228, 16, 47, 0.6);
+  color: #fff;
+}
+
+/* ---------- films ---------- */
+.studio__films {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: clamp(1.2rem, 2.4vw, 2rem);
+  max-width: var(--maxw);
+  margin-inline: auto;
+}
+.film__frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  /* the clips carry baked-in letterbox bars; this ratio + cover trims them */
+  aspect-ratio: 2.39 / 1;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #000;
+  box-shadow:
+    0 30px 70px -32px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+  transition:
+    transform 0.6s var(--e-expo),
+    box-shadow 0.6s var(--e-soft);
+}
+.film__frame:hover,
+.film__frame:focus-visible {
+  transform: translateY(-5px);
+  box-shadow:
+    0 38px 80px -30px rgba(0, 0, 0, 0.95),
+    0 0 0 1px rgba(228, 16, 47, 0.55);
+}
+.film__frame:focus-visible {
+  outline: 2px solid var(--chilli);
+  outline-offset: 3px;
+}
+.film__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  transition: scale 1.1s var(--e-expo);
+}
+.film__frame:hover .film__video {
+  scale: 1.04;
+}
+
+/* viewfinder corner marks */
+.film__marks i {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  opacity: 0;
+  transition:
+    opacity 0.45s var(--e-soft),
+    inset 0.45s var(--e-expo);
+}
+.film__marks i:nth-child(1) { inset: 20px auto auto 20px; border-right: 0; border-bottom: 0; }
+.film__marks i:nth-child(2) { inset: 20px 20px auto auto; border-left: 0; border-bottom: 0; }
+.film__marks i:nth-child(3) { inset: auto auto 20px 20px; border-right: 0; border-top: 0; }
+.film__marks i:nth-child(4) { inset: auto 20px 20px auto; border-left: 0; border-top: 0; }
+.film__frame:hover .film__marks i,
+.film__frame:focus-visible .film__marks i {
+  opacity: 1;
+}
+.film__frame:hover .film__marks i:nth-child(1) { inset: 14px auto auto 14px; }
+.film__frame:hover .film__marks i:nth-child(2) { inset: 14px 14px auto auto; }
+.film__frame:hover .film__marks i:nth-child(3) { inset: auto auto 14px 14px; }
+.film__frame:hover .film__marks i:nth-child(4) { inset: auto 14px 14px auto; }
+
+.film__play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  display: grid;
+  place-items: center;
+  width: clamp(52px, 5vw, 66px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  transition:
+    background 0.35s var(--e-soft),
+    border-color 0.35s var(--e-soft),
+    transform 0.45s var(--e-spring);
+}
+.film__play svg {
+  width: 36%;
+  margin-left: 3px;
+}
+.film__frame:hover .film__play,
+.film__frame:focus-visible .film__play {
+  background: var(--chilli);
+  border-color: var(--chilli);
+  transform: scale(1.08);
+}
+
+.film__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin-top: 0.85rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.76rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}
+.film__n {
+  color: var(--chilli);
+}
+.film__fmt {
+  margin-left: auto;
+  padding: 0.28em 0.7em;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 860px) {
+  .studio__body {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film__frame:hover,
+  .film__frame:focus-visible {
+    transform: none;
+  }
+  .film__frame:hover .film__video {
+    scale: 1;
+  }
+}

@@ -38,6 +38,7 @@ export function Testimonials({ t, lang }) {
               key={q.name}
               className="quote"
               data-reveal="up"
+              data-spot=""
               style={{ '--delay': `${i * 90}ms` }}
             >
               <Stars />

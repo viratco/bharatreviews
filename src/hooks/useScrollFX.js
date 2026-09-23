@@ -119,6 +119,42 @@ export function useScrollFX(deps = []) {
   }, deps)
 }
 
+/**
+ * Cursor spotlight: writes the pointer's position, relative to whichever
+ * [data-spot] element is under it, so CSS can draw a soft glow that follows
+ * the cursor. One delegated listener covers every card on the page, including
+ * ones added later (filtered tiles, re-rendered lists).
+ */
+export function useSpotlight(deps = []) {
+  useEffect(() => {
+    // no spotlight on touch: :hover sticks after a tap and the glow would stay
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return
+
+    // one write per frame, however fast the pointer reports
+    let frame = 0
+    let pending = null
+    const paint = () => {
+      frame = 0
+      const { el, x, y } = pending
+      const r = el.getBoundingClientRect()
+      el.style.setProperty('--mx', `${Math.round(x - r.left)}px`)
+      el.style.setProperty('--my', `${Math.round(y - r.top)}px`)
+    }
+    const onMove = (e) => {
+      const el = e.target.closest?.('[data-spot]')
+      if (!el) return
+      pending = { el, x: e.clientX, y: e.clientY }
+      if (!frame) frame = requestAnimationFrame(paint)
+    }
+    window.addEventListener('pointermove', onMove, { passive: true })
+    return () => {
+      window.removeEventListener('pointermove', onMove)
+      if (frame) cancelAnimationFrame(frame)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps)
+}
+
 /** Magnetic pull on buttons — the cursor tugs the button toward itself. */
 export function useMagnetic(deps = []) {
   useEffect(() => {

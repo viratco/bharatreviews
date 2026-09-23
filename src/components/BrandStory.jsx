@@ -2,7 +2,6 @@ import { CtaButton, Eyebrow, Reveal } from './Ui.jsx'
 import { SplitText } from './SplitText.jsx'
 
 const R = 49 // circle radius in the 100x100 viewBox
-const LEN = 2 * Math.PI * R
 
 export function BrandStory({ t }) {
   return (
@@ -17,7 +16,7 @@ export function BrandStory({ t }) {
         </h2>
       </div>
 
-      {/* each ring's outline is stroked on rather than just appearing */}
+      {/* circles with continuous rotating animation */}
       <div className="story__rings">
         {t.story.steps.map((s, i) => (
           <article
@@ -26,13 +25,29 @@ export function BrandStory({ t }) {
             data-reveal="scale"
             style={{ '--delay': `${i * 170}ms` }}
           >
-            <svg className="ring__svg" viewBox="0 0 100 100" aria-hidden="true">
+            {/* Base static circle track */}
+            <svg className="ring__svg ring__svg--base" viewBox="0 0 100 100" aria-hidden="true">
+              <circle
+                className="ring__track"
+                cx="50"
+                cy="50"
+                r={R}
+              />
+            </svg>
+
+            {/* Continuous rotating ring layer */}
+            <svg className="ring__svg ring__svg--spin" viewBox="0 0 100 100" aria-hidden="true">
               <circle
                 className="ring__circle"
                 cx="50"
                 cy="50"
                 r={R}
-                style={{ '--len': LEN, '--delay': `${i * 170 + 180}ms` }}
+              />
+              <circle
+                className="ring__node"
+                cx="50"
+                cy={50 - R}
+                r="2.2"
               />
             </svg>
 

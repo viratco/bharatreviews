@@ -137,7 +137,7 @@
   box-shadow: 0 16px 38px -14px rgba(255, 77, 25, 0.9);
 }
 
-/* ---------- ring draw ---------- */
+/* ---------- brand story continuous rotating rings ---------- */
 .ring__svg {
   position: absolute;
   inset: 0;
@@ -146,19 +146,94 @@
   overflow: visible;
   pointer-events: none;
 }
+
+.ring__track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 1;
+}
+
+.ring:nth-child(1) .ring__track {
+  stroke: rgba(255, 255, 255, 0.2);
+}
+.ring:nth-child(2) .ring__track {
+  stroke: rgba(255, 154, 107, 0.22);
+}
+.ring:nth-child(3) .ring__track {
+  stroke: rgba(255, 77, 25, 0.25);
+}
+
+.ring__svg--spin {
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+/* Continuously rotating at balanced speeds, with alternating spin directions for visual rhythm */
+.ring:nth-child(1) .ring__svg--spin {
+  animation: ringSpinCW 20s linear infinite;
+}
+.ring:nth-child(2) .ring__svg--spin {
+  animation: ringSpinCCW 24s linear infinite;
+}
+.ring:nth-child(3) .ring__svg--spin {
+  animation: ringSpinCW 18s linear infinite;
+}
+
+.ring:hover .ring__svg--spin {
+  animation-duration: 8s;
+}
+
 .ring__circle {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.22);
-  stroke-width: 1;
-  stroke-dasharray: var(--len) var(--len);
-  stroke-dashoffset: var(--len);
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-  transition: stroke-dashoffset 1.5s var(--e-expo);
-  transition-delay: var(--delay, 0ms);
+  stroke-width: 1.25;
 }
-.ring.is-in .ring__circle {
-  stroke-dashoffset: 0;
+
+.ring:nth-child(1) .ring__circle {
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-dasharray: 12.8 12.85;
+}
+.ring:nth-child(2) .ring__circle {
+  stroke: rgba(255, 154, 107, 0.68);
+  stroke-dasharray: 9.6 9.64;
+}
+.ring:nth-child(3) .ring__circle {
+  stroke: rgba(255, 77, 25, 0.8);
+  stroke-dasharray: 15.4 15.4;
+}
+
+.ring__node {
+  transform-origin: 50% 50%;
+}
+
+.ring:nth-child(1) .ring__node {
+  fill: #ffffff;
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.95));
+}
+.ring:nth-child(2) .ring__node {
+  fill: #ff9a6b;
+  filter: drop-shadow(0 0 6px rgba(255, 154, 107, 0.95));
+}
+.ring:nth-child(3) .ring__node {
+  fill: var(--orange);
+  filter: drop-shadow(0 0 7px rgba(255, 77, 25, 1));
+}
+
+@keyframes ringSpinCW {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ringSpinCCW {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }
 
 /* ---------- counters ---------- */
@@ -279,9 +354,8 @@
   [data-hero-out] {
     opacity: 1 !important;
   }
-  .ring__circle {
-    stroke-dashoffset: 0 !important;
-    transition: none !important;
+  .ring__svg--spin {
+    animation: none !important;
   }
   .marq__track {
     animation: none !important;

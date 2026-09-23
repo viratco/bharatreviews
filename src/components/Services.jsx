@@ -19,7 +19,7 @@ const COLLAGES = [
     { kind: 'photo', src: 'brand-kit', ratio: '4 / 3', w: 48, top: 50, left: 4, rot: 4, par: 0.1 },
     { kind: 'photo', src: 'vase', ratio: '3 / 4', w: 34, top: 2, left: 60, rot: 6, par: -0.08 },
     { kind: 'stat', benefit: 1, ratio: '1 / 1', w: 30, top: 60, left: 58, rot: -5, par: 0.12 },
-    { kind: 'logo', ratio: '16 / 9', w: 56, top: 4, left: 0, rot: -4, par: -0.06 },
+    { kind: 'logo', ratio: '912 / 360', w: 56, top: 4, left: 0, rot: -4, par: -0.06 },
   ],
   // Online Media & PR Management
   [
@@ -97,6 +97,7 @@ export function Services({ t }) {
           as="article"
           v="panel"
           className={`svc svc--${i % 2 ? 'flip' : 'norm'}`}
+          data-spot=""
         >
           <div className="svc__copy" data-stagger="90" data-stagger-base="120">
             <h3 data-reveal="fade">
