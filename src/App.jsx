@@ -14,7 +14,6 @@ import { Portfolio } from './components/Portfolio.jsx'
 import { BrandStory } from './components/BrandStory.jsx'
 import { Services } from './components/Services.jsx'
 import { Studio } from './components/Studio.jsx'
-import { Team } from './components/Team.jsx'
 import { Testimonials } from './components/Testimonials.jsx'
 import { Faq } from './components/Faq.jsx'
 import { Contact } from './components/Contact.jsx'
@@ -75,7 +74,6 @@ export default function App() {
         <BrandStory t={t} />
         <Services t={t} />
         <Studio t={t} lang={lang} />
-        <Team t={t} />
         <Testimonials t={t} lang={lang} />
         <Faq t={t} />
         <Contact t={t} />

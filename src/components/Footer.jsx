@@ -1,18 +1,39 @@
 import { BRAND } from '../brand.js'
+import { teamMembers } from '../content.js'
 import { Reveal } from './Ui.jsx'
 import { SplitText } from './SplitText.jsx'
 
 export function Footer({ t }) {
   return (
-    <footer className="ftr">
+    <footer className="ftr" id="team">
       <div className="ftr__hero">
         <h2 className="ftr__mark" data-reveal="fade">
           <SplitText as="span" text={BRAND.lines[0]} stagger={60} delay={80} />
           <SplitText as="span" text={BRAND.lines[1]} stagger={60} delay={220} />
         </h2>
-        <Reveal v="blur" delay={260}>
-          <div className="ftr__tile" data-par="0.14" aria-hidden="true" />
-        </Reveal>
+
+        {/* Experts Behind BharatReviews Team Section */}
+        <div className="ftr__team" data-reveal="fade">
+          <div className="ftr__team-head">
+            <span className="ftr__team-eyebrow">
+              {t.team?.eyebrow ?? '— Expert Members Behind BharatReviews'}
+            </span>
+            <h3 className="ftr__team-title">
+              EXPERTS BEHIND <span className="is-red">BHARATREVIEWS</span>
+            </h3>
+          </div>
+
+          <div className="ftr__team-grid" data-stagger="70">
+            {teamMembers.map((member, i) => (
+              <Reveal key={member.name} as="article" v="up" className="tcard ftr__tcard">
+                <span className="tcard__n">{String(i + 1).padStart(2, '0')}</span>
+                <h3>{member.name}</h3>
+                <span className="tcard__role">{member.role}</span>
+                <span className="tcard__glow" aria-hidden="true" />
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </div>
 
       <div className="ftr__bar" data-stagger="60">
