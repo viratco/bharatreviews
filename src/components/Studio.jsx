@@ -4,6 +4,8 @@ import { Eyebrow, Reveal } from './Ui.jsx'
 import { SplitText } from './SplitText.jsx'
 import { VideoLightbox } from './VideoLightbox.jsx'
 import { useInViewPlayback } from '../hooks/useInViewPlayback.js'
+import lockupImg from '../assets/brand/hot-chilli-lockup.png'
+import wordmarkImg from '../assets/brand/hot-chilli-wordmark.png'
 
 // the studio's films live alongside the showcase clips
 const files = import.meta.glob('../assets/showcase/*/*.{mp4,jpg}', { eager: true, import: 'default' })
@@ -27,7 +29,7 @@ export function Studio({ t, lang }) {
       src: fileFor(f.key, 'mp4'),
       poster: fileFor(f.key, 'jpg'),
       n: String(i + 1).padStart(2, '0'),
-      label: `${copy.lines.join(' ')} · ${copy.filmLabel}`,
+      label: `${f.title ?? copy.lines.join(' ')} · ${copy.filmLabel}`,
       wide: true,
     }))
     .filter((f) => f.src)
@@ -39,36 +41,120 @@ export function Studio({ t, lang }) {
   return (
     <section className="studio" id="studio">
       <div className="studio__glow" aria-hidden="true" />
+      <div className="studio__beam" aria-hidden="true" />
 
-      <div className="studio__head">
-        <Reveal v="fade">
-          <Eyebrow>{copy.eyebrow}</Eyebrow>
-        </Reveal>
-        <h2 className="studio__title" data-reveal="fade">
-          <SplitText as="span" text={copy.lines[0]} stagger={50} delay={120} />
-          <SplitText as="span" className="is-chilli" text={copy.lines[1]} stagger={50} delay={300} />
-        </h2>
-      </div>
+      {/* Main Studio Showcase Hero */}
+      <div className="studio__hero">
+        {/* Left: Narrative, Wordmark Brand Title, Specs, & Skills */}
+        <div className="studio__hero-left">
+          <Reveal v="fade">
+            <div className="studio__badge-row">
+              <Eyebrow>{copy.eyebrow}</Eyebrow>
+              {copy.badge && (
+                <span className="studio__badge">
+                  <span className="studio__badge-rec" />
+                  {copy.badge}
+                </span>
+              )}
+            </div>
+          </Reveal>
 
-      <div className="studio__body">
-        <div className="studio__copy" data-stagger="90">
-          {copy.paras.map((p) => (
-            <p key={p} data-reveal="up">
-              {p}
-            </p>
-          ))}
+          <div className="studio__brand" data-reveal="fade">
+            <img
+              src={wordmarkImg}
+              alt="Hot Chilli"
+              className="studio__wordmark-img"
+              width="627"
+              height="128"
+            />
+            <h2 className="studio__wordmark-sub">
+              <SplitText as="span" text={copy.lines[1]} stagger={50} delay={180} />
+            </h2>
+          </div>
+
+          <div className="studio__copy" data-stagger="90">
+            {copy.paras.map((p) => (
+              <p key={p} data-reveal="up">
+                {p}
+              </p>
+            ))}
+          </div>
+
+          {copy.specs && (
+            <div className="studio__specs" data-stagger="60">
+              {copy.specs.map((s) => (
+                <div key={s.label} className="studio__spec-item" data-reveal="up">
+                  <span className="studio__spec-val">{s.val}</span>
+                  <span className="studio__spec-lbl">{s.label}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <ul className="studio__skills" data-stagger="60" aria-label={copy.eyebrow.replace('— ', '')}>
+            {copy.skills.map((skill) => (
+              <li key={skill} data-reveal="up">
+                {skill}
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="studio__skills" data-stagger="60" aria-label={copy.eyebrow.replace('— ', '')}>
-          {copy.skills.map((skill) => (
-            <li key={skill} data-reveal="up">
-              {skill}
-            </li>
-          ))}
-        </ul>
+
+        {/* Right: Studio Camera Card with Cinematic Viewfinder HUD */}
+        <div className="studio__hero-right" data-reveal="scale">
+          <div className="studio__card">
+            <div className="studio__card-glow" aria-hidden="true" />
+
+            {/* Viewfinder crosshairs and technical metadata */}
+            <div className="studio__card-hud" aria-hidden="true">
+              <div className="hud__top">
+                <span className="hud__rec">
+                  <span className="hud__rec-dot" /> REC
+                </span>
+                <span className="hud__time">00:02:39:18</span>
+                <span className="hud__res">4K RAW</span>
+              </div>
+              <div className="hud__crosshair hud__crosshair--tl" />
+              <div className="hud__crosshair hud__crosshair--tr" />
+              <div className="hud__crosshair hud__crosshair--bl" />
+              <div className="hud__crosshair hud__crosshair--br" />
+              <div className="hud__bottom">
+                <span>FPS 24.00</span>
+                <span>ANAMORPHIC 2.39:1</span>
+                <span>ISO 800</span>
+              </div>
+            </div>
+
+            <img
+              src={lockupImg}
+              alt="Hot Chilli Studios Cinema Production Unit"
+              className="studio__card-img"
+              loading="lazy"
+              width="1024"
+              height="682"
+            />
+
+            <div className="studio__card-footer">
+              <div className="studio__card-info">
+                <span className="studio__card-title">CINEMA CAMERA RIG · 35MM EQUIV</span>
+                <span className="studio__card-sub">In-house production unit & cine lens package</span>
+              </div>
+              <span className="studio__card-tag">STUDIO RIG</span>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* the clips are letterboxed in-file, so a 2.39:1 frame with object-fit
-          cover trims the baked-in black bars instead of stacking new ones */}
+      {/* Reel Header */}
+      <div className="studio__reel-header" data-reveal="fade">
+        <div className="studio__reel-title">
+          <span className="studio__reel-pill">FEATURED REEL</span>
+          <h3>SELECTED CINEMATIC RELEASES</h3>
+        </div>
+        <p className="studio__reel-sub">Shot on location in 2.39:1 widescreen anamorphic</p>
+      </div>
+
+      {/* Films Grid */}
       <div className="studio__films" ref={stageRef} data-stagger="120">
         {films.map((film, i) => (
           <article className="film" key={film.key} data-reveal="up">
@@ -76,7 +162,7 @@ export function Studio({ t, lang }) {
               type="button"
               className="film__frame"
               onClick={() => setOpen(i)}
-              aria-label={`${ui.play}: ${copy.filmLabel} ${film.n}`}
+              aria-label={`${ui.play}: ${film.title ?? copy.filmLabel} ${film.n}`}
             >
               <video
                 className="film__video"
@@ -103,7 +189,8 @@ export function Studio({ t, lang }) {
             </button>
             <p className="film__meta">
               <span className="film__n">{film.n}</span>
-              <span>{film.runtime}</span>
+              <span className="film__title">{film.title ?? `Film ${film.n}`}</span>
+              <span className="film__runtime">{film.runtime}</span>
               <span className="film__fmt">2.39:1</span>
             </p>
           </article>
