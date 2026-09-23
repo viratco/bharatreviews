@@ -1,36 +1,37 @@
 import { BRAND } from '../brand.js'
 import { teamMembers } from '../content.js'
-import { Reveal } from './Ui.jsx'
 import { SplitText } from './SplitText.jsx'
 
 export function Footer({ t }) {
   return (
     <footer className="ftr" id="team">
-      <div className="ftr__hero">
-        <h2 className="ftr__mark" data-reveal="fade">
-          <SplitText as="span" text={BRAND.lines[0]} stagger={60} delay={80} />
-          <SplitText as="span" text={BRAND.lines[1]} stagger={60} delay={220} />
-        </h2>
+      <div className="ftr__banner" data-reveal="fade">
+        <div className="ftr__banner-left">
+          <h2 className="ftr__mark">
+            <SplitText as="span" text={BRAND.lines[0]} stagger={60} delay={80} />
+            <SplitText as="span" text={BRAND.lines[1]} stagger={60} delay={220} />
+          </h2>
+        </div>
 
-        {/* Experts Behind BharatReviews Team Section */}
-        <div className="ftr__team" data-reveal="fade">
+        <div className="ftr__divider" aria-hidden="true" />
+
+        <div className="ftr__banner-right">
           <div className="ftr__team-head">
             <span className="ftr__team-eyebrow">
-              {t.team?.eyebrow ?? '— Expert Members Behind BharatReviews'}
+              {t.team?.eyebrow ?? '— EXPERTS BEHIND BHARATREVIEWS'}
             </span>
             <h3 className="ftr__team-title">
               EXPERTS BEHIND <span className="is-red">BHARATREVIEWS</span>
             </h3>
           </div>
 
-          <div className="ftr__team-grid" data-stagger="70">
+          <div className="ftr__team-row" data-stagger="70">
             {teamMembers.map((member, i) => (
-              <Reveal key={member.name} as="article" v="up" className="tcard ftr__tcard">
-                <span className="tcard__n">{String(i + 1).padStart(2, '0')}</span>
-                <h3>{member.name}</h3>
-                <span className="tcard__role">{member.role}</span>
-                <span className="tcard__glow" aria-hidden="true" />
-              </Reveal>
+              <article key={member.name} className="ftr__card" data-reveal="up">
+                <span className="ftr__card-n">{String(i + 1).padStart(2, '0')}</span>
+                <h4 className="ftr__card-name">{member.name}</h4>
+                <span className="ftr__card-role">{member.role}</span>
+              </article>
             ))}
           </div>
         </div>

@@ -1146,90 +1146,162 @@
   padding: clamp(3rem, 6vw, 6rem) var(--gutter) clamp(1.6rem, 3vw, 2.6rem);
   background: #000;
 }
-.ftr__hero {
+/* ============================================================
+   FOOTER TEAM HERO BANNER — exact gold wave template match
+   ============================================================ */
+.ftr__banner {
+  position: relative;
+  overflow: hidden;
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-columns: auto auto 1fr;
   align-items: center;
-  gap: clamp(1.5rem, 4vw, 4rem);
+  gap: clamp(1.8rem, 3.2vw, 3.6rem);
+  padding: clamp(2.8rem, 4.8vw, 4.5rem) clamp(2rem, 3.8vw, 4.2rem);
+  border-radius: 24px;
+  background-color: #060403;
+  background-image: url('../assets/brand/footer-team-bg.jpg');
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  border: 1px solid rgba(212, 154, 69, 0.28);
+  box-shadow:
+    0 30px 90px -20px rgba(0, 0, 0, 0.95),
+    0 0 50px -10px rgba(212, 154, 69, 0.15);
 }
+
+.ftr__banner-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
 .ftr__mark {
   display: grid;
-  font-weight: 700;
-  font-stretch: 118%;
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 114%;
   line-height: 0.86;
-  /* the lines size themselves to this column, not to the screen */
-  container-type: inline-size;
-  /* a brand name is never hyphenated or broken */
-  hyphens: manual;
-  overflow-wrap: normal;
+  text-transform: uppercase;
 }
+
 .ftr__mark > .split {
   display: block;
-  /* "REVIEWS", the longest line, is ~5.4x its font-size wide in this cut:
-     18% of the column fills it with a little to spare */
-  font-size: min(18cqi, 12rem);
-  /* set here, not on the parent: an em letter-spacing is fixed where it's
-     declared, so it has to be declared at the size it applies to */
+  font-size: clamp(2.4rem, 5.2vw, 5.8rem);
   letter-spacing: -0.03em;
+  color: #ffffff;
 }
-/* Footer Team section */
-.ftr__team {
+
+.ftr__divider {
+  width: 1px;
+  align-self: stretch;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(212, 154, 69, 0.2) 15%,
+    rgba(212, 154, 69, 0.65) 50%,
+    rgba(212, 154, 69, 0.2) 85%,
+    transparent 100%
+  );
+}
+
+.ftr__banner-right {
   display: flex;
   flex-direction: column;
-  gap: 1.15rem;
-  width: 100%;
+  gap: clamp(1rem, 1.8vw, 1.5rem);
+  min-width: 0;
 }
+
 .ftr__team-head {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
 }
+
 .ftr__team-eyebrow {
-  font-family: var(--sans);
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  color: var(--red);
+  font-family: var(--display);
+  font-size: clamp(0.72rem, 0.88vw, 0.82rem);
+  letter-spacing: 0.14em;
+  color: #d49a45;
   text-transform: uppercase;
   font-weight: 700;
 }
+
 .ftr__team-title {
   font-family: var(--display);
   font-weight: 800;
-  font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+  font-size: clamp(1.35rem, 2.4vw, 2.2rem);
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: #fff;
+  color: #ffffff;
   line-height: 1.05;
 }
+
 .ftr__team-title .is-red {
-  color: var(--red);
+  color: #e4102f;
 }
-.ftr__team-grid {
+
+.ftr__team-row {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(0.75rem, 1.2vw, 1rem);
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(0.6rem, 1vw, 1rem);
 }
-.ftr__tcard {
-  padding: clamp(1.1rem, 1.8vw, 1.45rem) clamp(1rem, 1.6vw, 1.3rem);
-  border-radius: 16px;
-  background: linear-gradient(150deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015));
-  border: 1px solid rgba(255, 255, 255, 0.08);
+
+.ftr__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(0.95rem, 1.3vw, 1.25rem) clamp(0.85rem, 1.1vw, 1.15rem);
+  border-radius: 12px;
+  background: rgba(12, 9, 8, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 154, 69, 0.18);
+  box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.6);
+  transition:
+    transform 0.4s var(--e-spring),
+    border-color 0.35s var(--e-soft),
+    background 0.35s var(--e-soft),
+    box-shadow 0.35s var(--e-soft);
 }
-.ftr__tcard:hover {
-  border-color: rgba(255, 77, 25, 0.6);
-  background: linear-gradient(150deg, rgba(255, 77, 25, 0.12), rgba(255, 255, 255, 0.02));
+
+.ftr__card:hover {
   transform: translateY(-4px);
+  border-color: rgba(212, 154, 69, 0.55);
+  background: rgba(24, 18, 14, 0.85);
+  box-shadow:
+    0 16px 35px -10px rgba(0, 0, 0, 0.8),
+    0 0 20px -5px rgba(212, 154, 69, 0.3);
 }
-.ftr__tcard .tcard__n {
-  font-size: 0.82rem;
+
+.ftr__card-n {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: #d49a45;
+  margin-bottom: 0.45rem;
 }
-.ftr__tcard h3 {
-  font-size: clamp(1rem, 1.35vw, 1.2rem);
-  margin: 0.45rem 0 0.25rem;
+
+.ftr__card-name {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(0.88rem, 1.05vw, 1.05rem);
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  line-height: 1.15;
+  margin: 0 0 0.25rem 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.ftr__tcard .tcard__role {
-  font-size: 0.82rem;
-  color: var(--mute);
+
+.ftr__card-role {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.52);
 }
 
 .ftr__bar {
@@ -1748,11 +1820,15 @@
     margin: 0;
     width: min(78vw, 340px);
   }
-  .ftr__hero {
+  .ftr__banner {
     grid-template-columns: 1fr;
+    gap: 2.2rem;
   }
-  .ftr__team {
-    margin-top: 1.5rem;
+  .ftr__divider {
+    display: none;
+  }
+  .ftr__team-row {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -1780,7 +1856,7 @@
   .quote {
     width: 78vw;
   }
-  .ftr__team-grid {
+  .ftr__team-row {
     grid-template-columns: 1fr;
   }
 }
