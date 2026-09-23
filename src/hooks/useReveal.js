@@ -3,6 +3,11 @@ import { useEffect } from 'react'
 /**
  * Adds `.is-in` to every [data-reveal] once it enters the viewport.
  *
+ * Because this class is added from outside React, a [data-reveal] element must
+ * not also have a className that React changes — React would overwrite the
+ * class list and the element would drop back to opacity 0. Use a data-
+ * attribute for that state instead (see Faq.jsx).
+ *
  * A container marked [data-stagger="70"] hands each descendant reveal an
  * incrementing --delay, so grids and lists cascade instead of snapping in
  * together. Elements are unobserved after firing — reveals play once.

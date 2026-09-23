@@ -20,7 +20,10 @@ export function Faq({ t }) {
         {t.faq.items.map((item, i) => {
           const isOpen = open === i
           return (
-            <li key={item.q} data-reveal="up" className={isOpen ? 'is-open' : ''}>
+            // open state lives in data-open, not className: the scroll-reveal
+            // adds .is-in to this element itself, and a React className update
+            // would wipe it (the row would go invisible but keep its space)
+            <li key={item.q} data-reveal="up" data-open={isOpen ? '' : undefined}>
               <button
                 type="button"
                 className="faq__q"

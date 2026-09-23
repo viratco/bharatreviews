@@ -454,13 +454,21 @@ export const showcase = [
       { id: 'hotel-05', wide: true },
       { id: 'hotel-06', wide: true },
       { id: 'hotel-07', wide: true },
+      { id: 'hotel-08', wide: true },
+      { id: 'hotel-09', wide: true },
     ],
   },
   {
     category: 'cafe',
     label: { de: 'Cafés', en: 'Cafés' },
     tag: { de: 'Café', en: 'Café' },
-    videos: [{ id: 'cafe-01' }, { id: 'cafe-02' }, { id: 'cafe-03' }, { id: 'cafe-04' }],
+    videos: [
+      { id: 'cafe-01' },
+      { id: 'cafe-02' },
+      { id: 'cafe-03' },
+      { id: 'cafe-04' },
+      { id: 'cafe-05', wide: true },
+    ],
   },
   {
     category: 'estates',
@@ -488,6 +496,8 @@ export const showcase = [
       { id: 'brand-01' },
       { id: 'brand-03' },
       { id: 'brand-04', wide: true },
+      { id: 'brand-05', wide: true },
+      { id: 'brand-06', wide: true },
     ],
   },
 ]

@@ -187,7 +187,7 @@
   overflow: hidden;
   min-height: 0;
 }
-.is-open > .faq__a {
+[data-open] > .faq__a {
   grid-template-rows: 1fr;
   opacity: 1;
 }
@@ -195,10 +195,10 @@
 .faq__sign::after {
   transition: transform 0.45s var(--e-spring);
 }
-.is-open .faq__sign::before {
+[data-open] .faq__sign::before {
   transform: rotate(180deg);
 }
-.is-open .faq__sign::after {
+[data-open] .faq__sign::after {
   transform: rotate(180deg) scaleY(0);
 }
 

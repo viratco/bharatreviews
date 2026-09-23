@@ -983,7 +983,7 @@
   overflow: hidden;
   transition: background 0.35s var(--ease);
 }
-.faq__list > li.is-open {
+.faq__list > li[data-open] {
   background: rgba(255, 255, 255, 0.06);
 }
 .faq__q {
@@ -1021,7 +1021,7 @@
   width: 2px;
   height: 100%;
 }
-.is-open .faq__sign::after {
+[data-open] .faq__sign::after {
   transform: scaleY(0);
 }
 .faq__a {
